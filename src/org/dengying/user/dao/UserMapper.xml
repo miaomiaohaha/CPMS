@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dengying.user.dao.UserMapper">
+   <!-- 查询全部 -->
+	<select id="queryCounter" resultType="int">
+		select count(userid) from ACTOR
+	</select>
+	
+   <select id="query" resultType="Actors" >
+  
+   <![CDATA[select * from (select rownum as rn, ee.* from (select * from ACTOR) ee) e
+	    where e.rn > #{fromIndex}  and e.rn <= #{toIndex}  order by userid ]]>
+   </select>
+   
+   <select id = "queryOne" resultType="Actors" parameterType="int">
+   		select * from ACTOR where USERID = #{userid}
+   </select>
+   
+    <!-- 新增数据 -->
+   <insert id="append" parameterType="Actors">
+   		<selectKey keyProperty="userid" order="BEFORE" resultType="int">
+	        select ACTORSEQ.nextval from dual 
+	    </selectKey>
+			insert into ACTOR(USERID,USERNAME,PASSWORD,LIMITED) 
+   			values(#{userid},#{username},#{password},#{limited})
+   </insert>
+   <!-- 修改数据 -->
+   <update id="replace" parameterType="Actors">
+   		update ACTOR
+   		<set> 
+		    	<if test="username != null">
+		    	    USERNAME = #{username},
+		    	</if>
+		    	<if test="password != null">
+		    	    PASSWORD = #{password},
+		    	</if>
+		    	<if test="limited !=null">
+		    	    LIMITED = #{limited}
+		    	</if>
+    	</set>
+    	where userid = #{userid}
+   </update>
+   <delete id="remove" parameterType="int">
+   		delete from ACTOR where userid = #{userid}
+   </delete>
+</mapper> 

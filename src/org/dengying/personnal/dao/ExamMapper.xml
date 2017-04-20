@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dengying.personnal.dao.ExamMapper">
+	<!-- 查询全部 -->
+	<select id="queryCounter" resultType="int">
+		select count(examno) from EXAM
+	</select>
+	
+   <select id="findAll" resultType="EXAM" >
+  
+   <![CDATA[select * from (select rownum as rn, ee.* from (select * from EXAM) ee) e
+	    where e.rn > #{fromIndex}  and e.rn <= #{toIndex}]]>
+   </select>
+   
+   <!-- 新增数据 -->
+   <insert id="append" parameterType="EXAM">
+   		<selectKey keyProperty="examno" order="BEFORE" resultType="int">
+	        select EXAMSEQ.nextval from dual 
+	    </selectKey>
+   	insert into EXAM(EXAMNO,ENO,ENAME,EPNAME,EXAMDATEFROM,EXAMDATETO,EXAMNAME,EXAMRESULT,EXAMLEVEL,EXAMSCORE,REMARK) 
+   	values(#{examno},#{eno},#{ename},#{epname},#{examdatefrom},#{examdateto},#{examname},#{examresult},#{examlevel},#{examscore},#{remark})
+   </insert>
+   <update id="replace" parameterType="EXAM">
+	    update EXAM 
+	    	<set> 
+		    	<if test="eno >0">
+		    	    ENO = #{eno},
+		    	</if>
+		    	<if test="ename != null">
+		    	    ENAME = #{ename},
+		    	</if>
+		    	<if test="EPNAME != null">
+		    	    EPNAME = #{epname},
+		    	</if>
+		    	<if test="examdatefrom != null">
+		    	    EXAMDATEFROM = #{examdatefrom},
+		    	</if>
+		    	<if test="examdateto != null">
+		    	    EXAMDATETO = #{examdateto},
+		    	</if>
+		    	<if test="examname != null">
+		    	    EXAMNAME = #{examname},
+		    	</if>
+		    	<if test="examresult != null">
+		    	    EXAMRESULT = #{examresult},
+		    	</if>
+		    	<if test="examscore >0">
+		    	    EXAMSCORE = #{examscore},
+		    	</if>
+		    	<if test="examlevel != null">
+		    	    EXAMLEVEL = #{examlevel},
+		    	</if>
+		    	<if test="remark != null">
+		    	    REMARK = #{remark}
+		    	</if>
+		    </set>
+	    where EXAMNO = #{examno}
+	</update>
+	<delete id="remove" parameterType="int">
+	    delete  from EXAM where EXAMNO = #{examno}
+	</delete>
+</mapper>

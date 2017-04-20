@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dengying.sys.dao.SysMapper">
+	<!-- 查询树形菜单 -->
+	<resultMap type="Department" id="mn">
+		<result property="id" column="id"/>
+		<result property = "text" column ="name" />
+		<result property = "rank" column ="rank" />
+		<result property = "pid" column ="parentid" />
+		<collection property="children" ofType="Department">
+			<result property="id" column="id"/>
+			<result property = "name" column ="text"/>
+		</collection>
+	</resultMap>
+   <select id="findById" resultMap="mn" >
+  		select ID,NAME,PARENTID from DEPARTMENT where id = #{id}
+   </select>
+   <select id="findByPid" resultMap="mn" >
+  		select ID,NAME,PARENTID from DEPARTMENT where PARENTID = #{pid}
+   </select>
+   
+   <!--  新增数据 
+   <insert id="append" parameterType="DEPARTMENT">
+   		<selectKey keyProperty="DEPARTMENTno" order="BEFORE" resultType="int">
+	        select DEPARTMENTSEQ.nextval from dual 
+	    </selectKey>
+   	insert into DEPARTMENT(DEPARTMENTNO,ENO,ENAME,EPNAME,DEPARTMENTDATEFROM,DEPARTMENTDATETO,DEPARTMENTNAME,DEPARTMENTRESULT,DEPARTMENTLEVEL,DEPARTMENTSCORE,REMARK) 
+   	values(#{DEPARTMENTno},#{eno},#{ename},#{epname},#{DEPARTMENTdatefrom},#{DEPARTMENTdateto},#{DEPARTMENTname},#{DEPARTMENTresult},#{DEPARTMENTlevel},#{DEPARTMENTscore},#{remark})
+   </insert>
+   <update id="replace" parameterType="DEPARTMENT">
+	    update DEPARTMENT 
+	    	<set> 
+		    	<if test="eno >0">
+		    	    ENO = #{eno},
+		    	</if>
+		    	<if test="ename != null">
+		    	    ENAME = #{ename},
+		    	</if>
+		    	<if test="EPNAME != null">
+		    	    EPNAME = #{epname},
+		    	</if>
+		    	<if test="DEPARTMENTdatefrom != null">
+		    	    DEPARTMENTDATEFROM = #{DEPARTMENTdatefrom},
+		    	</if>
+		    	<if test="DEPARTMENTdateto != null">
+		    	    DEPARTMENTDATETO = #{DEPARTMENTdateto},
+		    	</if>
+		    	<if test="DEPARTMENTname != null">
+		    	    DEPARTMENTNAME = #{DEPARTMENTname},
+		    	</if>
+		    	<if test="DEPARTMENTresult != null">
+		    	    DEPARTMENTRESULT = #{DEPARTMENTresult},
+		    	</if>
+		    	<if test="DEPARTMENTscore >0">
+		    	    DEPARTMENTSCORE = #{DEPARTMENTscore},
+		    	</if>
+		    	<if test="DEPARTMENTlevel != null">
+		    	    DEPARTMENTLEVEL = #{DEPARTMENTlevel},
+		    	</if>
+		    	<if test="remark != null">
+		    	    REMARK = #{remark}
+		    	</if>
+		    </set>
+	    where DEPARTMENTNO = #{DEPARTMENTno}
+	</update>
+	<delete id="remove" parameterType="int">
+	    delete  from DEPARTMENT where DEPARTMENTNO = #{DEPARTMENTno}
+	</delete> -->
+</mapper>

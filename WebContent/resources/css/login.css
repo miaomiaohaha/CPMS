@@ -1,0 +1,37 @@
+body{
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+	background-image: url(../img/bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	font-size: 30px;
+}
+
+#login{
+	height:230px;
+	width:400px;
+	left:50%;
+	top:50%;
+	margin:-100px 0 0 -230px;
+	z-index:99;
+	position: absolute; 
+	border-style:outset;
+	border-color:purple;
+} 
+#username,#password,#limited{
+	font-size:16px;
+	width: 200px;
+	height: 25px;
+	border-style:dotted;
+	border-color:gray;
+	background-color: buttonhighlight;
+}
+#reset,#submit{
+	height: 30px;
+	width: 60px;
+	font-size:18px;
+	background-color:pink;
+}

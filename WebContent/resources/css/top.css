@@ -1,0 +1,10 @@
+body{
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+	background-image: url(../img/top.jpg);
+	background-repeat: no-repeat;
+	background-position: top;
+	background-attachment: fixed;
+}

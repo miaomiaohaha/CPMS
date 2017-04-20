@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dengying.personnal.dao.PersonnalMapper">
+	<!-- 查询全部 -->
+	<select id="queryCounter" resultType="int">
+		select count(eno) from employee
+	</select>
+	
+   <select id="findAll" resultType="Employee" >
+  
+   <![CDATA[select * from (select rownum as rn, ee.* from (select * from employee) ee) e
+	    where e.rn > #{fromIndex}  and e.rn <= #{toIndex} and isvalid = 1 order by eno ]]>
+   </select>
+   
+   <!-- 按条件查询 -->
+   <select id="findEPName" parameterType="java.lang.String" resultType="Employee" >
+	   select * from employee where isvalid = 1 and epname=#{text} order by eno
+   </select>
+   <select id="findENo" parameterType="int" resultType="Employee" >
+	   select * from employee where isvalid = 1 and eno=#{text} order by eno
+   </select>
+   <select id="findEJob" parameterType="java.lang.String" resultType="Employee" >
+	   select * from employee where isvalid = 1 and ejob=#{text} order by eno
+   </select>
+   <select id="findEName" parameterType="java.lang.String" resultType="Employee" >
+	   select * from employee where isvalid = 1 and ename=#{text} order by eno
+   </select>
+   
+   <!-- 新增数据 -->
+   <!-- ename,epname,esex,ebirth,nation,registed,
+   maritalStatus,education,id,ejob,phone,mobile,email,address,graduateDate,graduateSchool,
+   major,positionalTitle,jobDateFrom,contraceDateFrom,contraceDateTo,cardnum,publicFundnum,
+   isvaild,nativePlace,politicsStates -->
+   <insert id="append" parameterType="Employee">
+   		<selectKey keyProperty="eno" order="BEFORE" resultType="int">
+	        select EMPLOYEESEQ.nextval from dual 
+	  	</selectKey>
+    insert into employee(ENO,ENAME,EPNAME,ESEX,EBIRTH,NATION,REGISTED,MARITALSTATUS,EDUCATION,ID,EJOB,PHONE,MOBILE,EMAIL,ADDRESS,GRADUATEDATE,GRADUATESCHOOL,MAJOR,POSITIONALTITLE,JOBDATEFROM,CONTRACTDATEFROM,CONTRACTDATETO,CARDNUM,PUBLICFUNDNUM,ISVALID,NATIVEPLACE,POLITICSSTATUS) 
+    values(#{eno}, #{ename}, #{epname}, #{esex},to_timestamp('${ebirth}','yyyy-MM-dd HH24:mi:ss:ff1'),#{nation}, #{registed}, #{maritalStatus}, #{education},#{id},#{ejob}, to_number('${phone}'), #{mobile}, #{email},#{address},to_timestamp('${graduateDate}','yyyy-MM-dd HH24:mi:ss:ff1'), #{graduateSchool}, #{major}, #{positionalTitle},to_timestamp('${jobDateFrom}','yyyy-MM-dd HH24:mi:ss:ff1'),to_timestamp('${contraceDateFrom}','yyyy-MM-dd HH24:mi:ss:ff1'), 
+    to_timestamp('${contraceDateTo}','yyyy-MM-dd HH24:mi:ss:ff1'), to_number('${cardnum}'),to_number('${publicFundnum}'),1,#{nativePlace}, #{politicsStates}) -->
+   </insert>
+   <update id="replace" parameterType="Employee">
+	    update employee 
+	    	<set> 
+		    	<if test="ename != null">
+		    	    ENAME = #{ename},
+		    	</if>
+		    	<if test="epname != null">
+		    	    EPNAME = #{epname},
+		    	</if>
+		    	<if test="esex != null">
+		    	    ESEX = #{esex},
+		    	</if>
+		    	<if test="ebirth != null">
+		    	    EBIRTH = to_timestamp('${ebirth}','yyyy-MM-dd HH24:mi:ss:ff1'),
+		    	</if>
+		    	<if test="nation != null">
+		    	    NATION = #{nation},
+		    	</if>
+		    	<if test="registed != null">
+		    	    REGISTED = #{registed},
+		    	</if>
+		    	<if test="maritalStatus != null">
+		    	    MARITALSTATUS = #{maritalStatus},
+		    	</if>
+		    	<if test="education != null">
+		    	    EDUCATION = #{education},
+		    	</if>
+		    	<if test="id != null">
+		    	    ID = #{id},
+		    	</if>
+		    	<if test="ejob != null">
+		    	    EJOB = #{ejob},
+		    	</if>
+		    	<if test="phone !=null">
+		    	    PHONE = #{phone},
+		    	</if>
+		    	<if test="mobile != null">
+		    	    MOBILE = #{mobile},
+		    	</if>
+		    	<if test="email != null">
+		    	    EMAIL = #{email},
+		    	</if>
+		    	<if test="address != null">
+		    	    ADDRESS = #{address},
+		    	</if>
+		    	<if test="graduateDate != null">
+		    	    GRADUATEDATE = to_timestamp('${graduateDate}','yyyy-MM-dd HH24:mi:ss:ff1'),
+		    	</if>
+		    	<if test="graduateSchool != null">
+		    	    GRADUATESCHOOL = #{graduateSchool},
+		    	</if>
+		    	<if test="major != null">
+		    	    MAJOR = #{major},
+		    	</if>
+		    	<if test="positionalTitle != null">
+		    	    POSITIONALTITLE = #{positionalTitle},
+		    	</if>
+		    	<if test="jobDateFrom != null">
+		    	    JOBDATEFROM = to_timestamp('${jobDateFrom}','yyyy-MM-dd HH24:mi:ss:ff1'),
+		    	</if>
+		    	<if test="contraceDateFrom!= null">
+		    	    CONTRACTDATEFROM = to_timestamp('${contraceDateFrom}','yyyy-MM-dd HH24:mi:ss:ff1'),
+		    	</if>
+		    	<if test="contraceDateTo != null">
+		    	    CONTRACTDATETO = to_timestamp('${contraceDateTo}','yyyy-MM-dd HH24:mi:ss:ff1'),
+		    	</if>
+		    	<if test="cardnum !=null">
+		    	    CARDNUM = #{cardnum},
+		    	</if>
+		    	<if test="publicFundnum !=null">
+		    	    PUBLICFUNDNUM = #{publicFundnum},
+		    	</if>
+		    	<if test="nativePlace!= null">
+		    	    NATIVEPLACE = #{nativePlace},
+		    	</if>
+		    	<if test="politicsStates!= null">
+		    	    POLITICSSTATUS = #{politicsStates}
+		    	</if>		    	 
+	    	</set>
+	    where eno = #{eno}
+	</update>
+	<update id="remove" parameterType="int">
+	    update employee set  isvalid = 0 where eno = #{eno}
+	</update>
+</mapper>

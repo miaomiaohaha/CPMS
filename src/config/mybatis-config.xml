@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	 <typeAliases>
+		<typeAlias type="org.dengying.personnal.model.Employee" alias="Employee"/>
+		<typeAlias type="org.dengying.personnal.model.Exam" alias="Exam"/>
+		<typeAlias type="org.dengying.personnal.model.Train" alias="Train"/>
+		<typeAlias type="org.dengying.personnal.model.Title" alias="Title"/>
+		<typeAlias type="org.dengying.sys.model.Department" alias="Department"/>
+		<typeAlias type="org.dengying.login.model.Actors" alias="Actors"/>
+	</typeAliases>
+</configuration>

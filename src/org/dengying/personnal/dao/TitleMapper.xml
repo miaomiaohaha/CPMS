@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dengying.personnal.dao.TitleMapper">
+	<!-- 查询全部 -->
+	<select id="queryCounter" resultType="int">
+		select count(titleno) from TITLE
+	</select>
+	
+   <select id="findAll" resultType="TITLE" >
+  
+   <![CDATA[select * from (select rownum as rn, ee.* from (select * from TITLE) ee) e
+	    where e.rn > #{fromIndex}  and e.rn <= #{toIndex}]]>
+   </select>
+   
+   <!-- 新增数据 -->
+   <insert id="append" parameterType="Title">
+   		<selectKey keyProperty="titleno" order="BEFORE" resultType="int">
+	        select TITLESEQ.nextval from dual 
+	    </selectKey>
+   	insert into TITLE(TITLENO,ENO,ENAME,EPNAME,TITLEDATE,TITLENAME,TITLEWAY) 
+   	values(#{titleno},#{eno},#{ename},#{epname},#{titledate},#{titlename},#{titleway})
+   </insert>
+   <update id="replace" parameterType="TITLE">
+	    update TITLE 
+	    	<set> 
+		    	<if test="eno >0">
+		    	    ENO = #{eno},
+		    	</if>
+		    	<if test="ename != null">
+		    	    ENAME = #{ename},
+		    	</if>
+		    	<if test="epname != null">
+		    	    EPNAME = #{epname},
+		    	</if>
+		    	<if test="titledate != null">
+		    	    TITLEDATE = #{titledate},
+		    	</if>
+		    	<if test="titlename != null">
+		    	    TITLENAME = #{titlename},
+		    	</if>
+		    	<if test="titleway != null">
+		    	    TITLEWAY = #{titleway},
+		    	</if>
+		    </set>
+	    where TITLENO = #{titleno}
+	</update>
+	<delete id="remove" parameterType="int">
+	    delete  from TITLE where TITLENO = #{titleno}
+	</delete>
+</mapper>
